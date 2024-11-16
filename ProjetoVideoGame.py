@@ -1,4 +1,4 @@
-#libs necessarias 
+#%%
 
 #libs para modelagem de matrizes 
 import numpy as np 
@@ -13,35 +13,37 @@ import warnings
 
 #desabilitando avisos 
 warnings.filterwarnings('ignore')
-
-#lib importação de arquivo 
-import os 
-
-os.chdir('C:\\Users\\andre\\OneDrive\\Área de Trabalho\\python\\Projeto vendas de videogames')
+#%%
 
 #lendo os dados 
 Base_Dados = pd.read_csv('PS4_GamesSales.csv', encoding='latin-')
 
 # Verificando 
 Base_Dados.head()
+#%%
 
 #Dimensão 
 Base_Dados.shape 
+#%%
 
 #nulos
 Base_Dados.isnull().sum()
+#%%
 
 # Nulos Graficos 
 plt.figure(figsize=(14,5))
 plt.title('Verificando campos nulos')
-sns.heatmap(Base_Dados.isnull(), cbar=False);
-#plt.show()
+sns.heatmap(Base_Dados.isnull(), cbar=False)
+plt.show()
+#%%
 
 #Retirando Valores nulos 
 Base_Dados.dropna (inplace = True)
+#%%
 
 #Estatisticas 
 Base_Dados.describe()
+#%%
 
 #Tamanho da imagem 
 plt.figure(figsize=(10,5))
@@ -53,14 +55,17 @@ plt.title('Quantidade de Vendas Globais (mi)', loc='left',fontsize=14)
 sns.barplot( data=Base_Dados, x='Year', y='Global', ci=None, color='#69b3a2', estimator=sum) 
 
 #Label 
-plt.ylabel('Quantidade de vendas (mi)');
-#plt.show()
+plt.ylabel('Quantidade de vendas (mi)')
+plt.show()
+#%%
 
 # Retirar os anos 
 Base_Dados = Base_Dados.loc[(Base_Dados['Year'] !=2019) & (Base_Dados['Year'] != 2020)]
-
+#%%
 #Verificar
 Base_Dados.head()
+
+#%%
 
 #Tamanho 
 plt.figure(figsize=(12,5))
@@ -72,8 +77,10 @@ plt.style.use('ggplot')
 plt.title('Distribuição das Vendas Globais', loc='left', fontsize=14)
 
 #plot
-sns.kdeplot(Base_Dados['Global'], shade= True, bw=1, color='#96a8a8', linewidth=2.5);
-#plt.show()
+sns.kdeplot(Base_Dados['Global'], shade= True, bw=1, color='#96a8a8', linewidth=2.5)
+plt.show()
+
+#%%
 
 Base_Dados.groupby(by=['Year']).sum()
 
@@ -84,14 +91,17 @@ plt.figure(figsize = (10, 4))
 plt.title('Análise da distribuição Global (mi)')
 
 #Plot
-sns.boxplot( data = Base_Dados, x='Year', y='Global');
+sns.boxplot( data = Base_Dados, x='Year', y='Global')
 
-#plt.show()
+plt.show()
+
+#%%
 
 Base_Dados.loc[Base_Dados['Global']>=10]
 
 Base_Dados
 
+#%%
 Analise = Base_Dados.groupby(by=['Year']).sum().reset_index()
 
 #analisando a proporção dos 100% de cada continente comparado ao total 
@@ -128,11 +138,14 @@ plt.xlabel('Grupo')
 plt.ylabel('Distribuição %')
 
 #Legenda
-plt.legend(['America N', 'Europa', 'Japão','Mundo'], loc='upper left', bbox_to_anchor=(0.15, -0.1), ncol=4);
+plt.legend(['America N', 'Europa', 'Japão','Mundo'], loc='upper left', bbox_to_anchor=(0.15, -0.1), ncol=4)
 
-#plt.show()
+plt.show()
+
+#%%
 
 Base_Dados['Publisher'].unique()
+#%%
 
 from sklearn.preprocessing import LabelEncoder
 funcao_Label = LabelEncoder()
@@ -142,25 +155,28 @@ Base_Dados['Genero'] = funcao_Label.fit_transform(Base_Dados['Genre'])
 Base_Dados['Jogo']= funcao_Label.fit_transform(Base_Dados['Game'])
 
 Base_Dados.head()
+#%%
+
 
 Paleta_Cores = sns.color_palette('husl', 8)
-print(Paleta_Cores);
-
+Paleta_Cores
+#%%
 plt.figure(figsize=(20,5))
 plt.title('Análise dos produtores de Game (mi)')
-sns.scatterplot(data=Base_Dados, x='Produtor', y='Global', color= Paleta_Cores[0]);
+sns.scatterplot(data=Base_Dados, x='Produtor', y='Global', color= Paleta_Cores[0])
 plt.show()
 
 plt.figure(figsize=(20,5))
 plt.title('Análise dos generos dos Games (mi)')
-sns.scatterplot(data=Base_Dados, x='Genero', y='Global', color= Paleta_Cores[0]);
+sns.scatterplot(data=Base_Dados, x='Genero', y='Global', color= Paleta_Cores[0])
 plt.show()
 
 plt.figure(figsize=(20,5))
 plt.title('Análise dos Games(mi)')
-sns.scatterplot(data=Base_Dados, x='Jogo', y='Global', color= Paleta_Cores[0]);
+sns.scatterplot(data=Base_Dados, x='Jogo', y='Global', color= Paleta_Cores[0])
 plt.show()
 
+#%%
 # Relatorio 
 
 #Tamanho da imagem 
@@ -222,23 +238,24 @@ plt.bar(Grupos, Mundo, bottom=[A + B + C for A, B, C in zip(America, Europa, Jap
 plt.xticks(Grupos, Rotulos)
 plt.ylabel('Distribuição %')
 # Legenda 
-plt.legend(['America N', 'Eupora', 'Japão', 'Mundo'], loc= 'upper left', bbox_to_anchor=(-0.01, -0.1), ncol=4); 
+plt.legend(['America N', 'Eupora', 'Japão', 'Mundo'], loc= 'upper left', bbox_to_anchor=(-0.01, -0.1), ncol=4) 
 
 #Acessando gráfico 4
 plt.subplot(Linhas, Colunas, 4)
 plt.title('Análise dos produtores de Game (mi)', loc='left', fontsize=14)
-sns.scatterplot(data= Base_Dados, x='Produtor', y='Global', color= Paleta_Cores[0]);
+sns.scatterplot(data= Base_Dados, x='Produtor', y='Global', color= Paleta_Cores[0])
 
 #Acessando gráfico 5 
 plt.subplot(Linhas, Colunas, 5)
 plt.title('Análise dos generos do Game (mi)', loc= 'left', fontsize=14)
-sns.scatterplot(data= Base_Dados, x='Genero', y='Global', color = Paleta_Cores[0]);
+sns.scatterplot(data= Base_Dados, x='Genero', y='Global', color = Paleta_Cores[0])
 
 #Acessando gráfico 6
 plt.subplot(Linhas, Colunas, 6)
 plt.title('Análise dos Games (mi)', loc='left', fontsize=14)
-sns.scatterplot(data=Base_Dados, x='Jogo', y='Global', color=Paleta_Cores[0]);
+sns.scatterplot(data=Base_Dados, x='Jogo', y='Global', color=Paleta_Cores[0])
 
 #Ajustar o layout
 plt.subplots_adjust(hspace=0.90, wspace=0.40) 
 plt.show()
+# %%
